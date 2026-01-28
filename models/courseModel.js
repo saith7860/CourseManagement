@@ -29,12 +29,14 @@ const courseSchema = mongoose.Schema({
   ],
   videos:[
     {type:'ObjectId',
-      ref:'Video'
+      ref:'Video',
+      require:true
     }
   ],
   assignments:[
     {type:'ObjectId',
-      ref:'Assignment'
+      ref:'Assignment',
+      require:true
     }
   ],
   totalPurchases:{
