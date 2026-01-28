@@ -10,6 +10,10 @@ const handleErrors=(err)=>{
          errors[properties.path]=properties.message;
         })
     }
+    if (err.code==11000) {
+        errors['email']="User with this email already exits"
+        return errors.email;
+    }
     return errors;
 }
 const saltRounds=10;
@@ -29,19 +33,21 @@ const postUser=async(req,res)=>{
   
 try {
   const { name,email, password } = req.body;
+//   if (req.body['role']) {
+//     const role=req.body.role;
+//   }
   if (!(password.length>=6)) {
-    res.json('password length should be greater or equal to 6');
+    res.json({error:'password length should be greater or equal to 6'});
     return;
   }
   
   
   const hashPassword=await bcrypt.hash(password,saltRounds);
-    const enrolledCourses=[];
+    
        const user=new User({
         name,
         email,
         hashPassword,
-        enrolledCourses
        })
         const result=await user.save();
         const payLoad={
@@ -55,7 +61,7 @@ try {
       const errors= handleErrors(error);
       console.log(errors);
       
-      res.status(400).json({message:"Internal server error"})
+      res.status(400).json({error:errors})
       
         // console.log('error creating a user',error);
 
@@ -142,23 +148,5 @@ const updateUserPassword=async(req,res)=>{
         
     }
 }
-// const updateUser=async(req,res)=>{
-//     const id=req.params.id;
-//     const blogId=req.body.blogId;
-//     try {
-//         const response=await User.findOneAndUpdate({_id:id},{$push:{blogs:blogId}});
-//         res.status(200).json(response);
-//     } catch (error) {
-//         console.log('error in pushing blog ids in array of blogs in user schmea',error);
-//         res.status(400).json({message:"blog id not pushed"})
-        
-//     }
-// }
-// const deleteUser=async(req,res)=>{
-//     try {
-        
-//     } catch (error) {
-        
-//     }
-// }
+
 export {getUsers,getUserProfile,updateUserPassword,postUser,loginUser}

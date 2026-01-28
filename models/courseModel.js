@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const courseSchema = mongoose.Schema({
-  title: {type:String,require:[true,'Enter the title of the course'],minlength:[15,'Enter the title with minimum 15 characters']},
+  title: {type:String,unique:true,require:[true,'Enter the title of the course'],minlength:[15,'Enter the title with minimum 15 characters']},
   duration:{
     type:String,
     require:true
