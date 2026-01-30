@@ -6,17 +6,13 @@ const reviewSchema = new mongoose.Schema({
     require: true,
  },
    rating:{
-    type:float,
+    type:Number,
     require:[true,'Enter the rating of course'],
    },
     description:{
     type:String,
     require:[true,'Enter the description of the review'],minlength:[10,'Enter the description with minimum 10 characters']
   },
-  profilePic:{
-    type:String,
-    require:[true,'Enter the url of the video']
-  }
 })
 reviewSchema.set("toJSON", {
   transform: (document, returnedObject) => {

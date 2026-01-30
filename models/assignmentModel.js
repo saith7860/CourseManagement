@@ -13,6 +13,12 @@ const assignmentSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
+   courses:[
+    {type:'ObjectId',
+      ref:'Course',
+      require:[true,'Enter the id of the course this video belongs']
+    }
+  ],
 })
 assignmentSchema.set("toJSON", {
   transform: (document, returnedObject) => {

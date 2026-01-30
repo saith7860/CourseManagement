@@ -1,7 +1,5 @@
 import User from "../models/userModel.js";
-import bcrypt from 'bcrypt';
 import Course from "../models/courseModel.js";
-import { createToken,authMiddleware } from "../jwt.js";
 
 const showAllCourses=async(req,res)=>{
     try {

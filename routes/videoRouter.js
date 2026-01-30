@@ -1,0 +1,10 @@
+import express from 'express';
+import {showAllVideos,getSpecificVideo,addVideo,updateVideo,deleteVideo} from '../controllers/videoController.js';
+import {authMiddleware } from '../jwt.js';
+const videoRouter =express.Router();
+videoRouter.get("/",authMiddleware,showAllVideos);
+videoRouter.get("/:id",authMiddleware,getSpecificVideo);
+videoRouter.post("/addvideo",authMiddleware,addVideo);
+videoRouter.patch("/:id/updatevideo",authMiddleware,updateVideo);
+videoRouter.delete("/:id/deletevideo",authMiddleware,deleteVideo);
+export default videoRouter;

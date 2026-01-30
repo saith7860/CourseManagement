@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { createToken,authMiddleware } from "../jwt.js";
 import Course from "../models/courseModel.js";
 import { updateUserPassword } from "./userController.js";
+import isAdmin from "../common/isAdmin.js";
 //handling user validation and duplication errors
 const handleErrors=(err)=>{
     const errors={title:'',desription:'',price:"",courseDetails:"",duration:""}
@@ -16,23 +17,7 @@ const handleErrors=(err)=>{
     return errors;
 }
 //checking if the user has admin role or not
-const isAdmin=async(userID)=>{
-    try {
-   const user=await User.findById(userID);
-   if (!user) {
-   return  res.status(404).json({error:'user with this id is not found'});
-   }
-   console.log(user.role);
-   
-   if (user.role=='admin') {
-    return true;
-   }
-    } catch (error) {
-       console.log(error);
-        return false; 
-    }
-  
-}
+
 
 const addCourse=async(req,res)=>{
 

@@ -10,7 +10,7 @@ const videoSchema = new mongoose.Schema({
   },
    duration:{
     type:String,
-    require:true
+    require:[true,'Enter the duration of the video']
   },
    url:{
     type:String,
@@ -20,6 +20,12 @@ const videoSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
+ courses:[
+    {type:'ObjectId',
+      ref:'Course',
+      require:[true,'Enter the id of the course this video belongs']
+    }
+  ],
 })
 videoSchema.set("toJSON", {
   transform: (document, returnedObject) => {

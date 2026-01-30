@@ -27,7 +27,7 @@ const courseSchema = mongoose.Schema({
       ref:'User'
     }
   ],
-  videos:[
+  videos:[ 
     {type:'ObjectId',
       ref:'Video',
       require:true
