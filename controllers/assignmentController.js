@@ -60,6 +60,8 @@ const getSpecificAssignment=async(req,res)=>{
 
 
 const addAssignment=async(req,res)=>{
+const id=req.params.id;
+console.log('id of the course to which assignment is added is',id);
 
     try {
        if (!(await isAdmin(req.user.id))) {
@@ -68,12 +70,12 @@ const addAssignment=async(req,res)=>{
        } 
      const {title,url,courses}=req.body;
      
-        courses.forEach(async(course)=>{
-       const courseFound= await Course.findById(course);
-        if (!courseFound) {
-            return res.status(404).json({error:'Course not found'})
-        }
-        })
+    //  courses.forEach(async(course)=>{
+    //    const courseFound= await Course.findById(course);
+    //     if (!courseFound) {
+    //         return res.status(404).json({error:'Course not found'})
+    //     }
+    //     })
      
      const foundAssignment=await Assignment.findOne({title:title});
      if (foundAssignment) {
@@ -91,6 +93,8 @@ const addAssignment=async(req,res)=>{
         courses
      })
      const result=await newAssignment.save();
+      const updateAssignments=await Course.updateOne(courseValidation,{$push:{assignments:id}});
+     console.log(updateAssignments);
      console.log('result of adding new Assignment',result);
      res.json({response:result})
      
@@ -110,8 +114,8 @@ const updateAssignment=async(req,res)=>{
         return res.status(403).json({error:'user does not have admin role'})
        } 
     //    const data=req.body;
-        const Assignment=await Assignment.findById(id);
-        const updateAssignment=await Assignment.updateOne(Assignment,{$set:req.body})
+        const assignment=await Assignment.findById(id);
+        const updateAssignment=await Assignment.updateOne(assignment,{$set:req.body})
         // await course.save();
         console.log("Assignment before updating",Assignment);
         console.log("Assignment after updating",updateAssignment);

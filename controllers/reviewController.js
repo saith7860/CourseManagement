@@ -2,6 +2,7 @@ import Assignment from "../models/assignmentModel.js";
 import isAdmin from "../common/isAdmin.js";
 import Course from "../models/courseModel.js";
 import Review from "../models/reviewsModel.js";
+import User from "../models/userModel.js";
 //handle erros
 const handleErrors=(err)=>{
     const errors={rating:"",description:""}
@@ -19,10 +20,23 @@ const handleErrors=(err)=>{
 const addReview=async(req,res)=>{
 
     try {
-        //getting user name fromm the token provided
-     const userName=req.user.name;
+     //getting user name fromm the token provided
+     const userId=req.user.id;
+     console.log(userId);
+     
+     const foundUser=await User.findById(userId);
+     if (!foundUser) {
+        return res.status(404).json({erorr:'user not found'})
+     }
+     console.log(foundUser.name);
+     
+     const userName=foundUser.name;
      //getting courseId
      const courseId=req.params.id;
+     const courseFound= await Course.findById(courseId);
+        if (!courseFound) {
+            return res.status(404).json({error:'Course not found'})
+        }
      console.log("user wants to do review is",userName);
      const {rating,description}=req.body;
      const newReview=new Review({
@@ -31,17 +45,10 @@ const addReview=async(req,res)=>{
        userName
      })
      const result=await newReview.save();
+     console.log('result id is',result.id);
      
-     const reveiwId=result.id;
-     console.log('reviewId is',id);
-     
-     const courseData=await Course.findById(courseId);
-      console.log("course data is",courseData);
-        if (!courseData) {
-            return res.json({message:"course with this id is not found" })
-        }
-         const updateReviews=await Course.updateOne(courseData,{$push:{reviews:reveiwId}});
-        console.log(updateReviews);
+     const updateReview=await Course.updateOne(courseFound,{$push:{reviews:result.id}});
+     console.log(updateReview);
      console.log('result of adding new review',result);
      res.json({response:result})
      

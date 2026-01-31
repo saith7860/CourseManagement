@@ -5,6 +5,7 @@ import adminRouter from './routes/adminRouter.js';
 import courseRouter from './routes/courseRouter.js';
 import videoRouter from './routes/videoRouter.js';
 import reviewRouter from './routes/reviewRouter.js';
+import assignmentRouter from './routes/assignmentsRouter.js';
 if (process.env.NODE_ENV==="test") {
     dotenv.config({path:".env.test"})
 }else{
@@ -18,6 +19,8 @@ app.use("/api/course",adminRouter);
 app.use("/api/courses",courseRouter);
 app.use("/api/videos",videoRouter);
 app.use("/api/reviews",reviewRouter);
+app.use("/api/assignments",assignmentRouter);
+
 
 export default app;
 

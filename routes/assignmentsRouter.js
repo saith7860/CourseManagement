@@ -4,7 +4,7 @@ import {authMiddleware } from '../jwt.js';
 const assignmentRouter =express.Router();
 assignmentRouter.get("/",authMiddleware,showAllAssignments);
 assignmentRouter.get("/:id",authMiddleware,getSpecificAssignment);
-assignmentRouter.post("/addassignment",authMiddleware,addAssignment);
+assignmentRouter.post("/:id/addassignment",authMiddleware,addAssignment);
 assignmentRouter.patch("/:id/updateassignment",authMiddleware,updateAssignment);
 assignmentRouter.delete("/:id/deleteassignment",authMiddleware,deleteAssignment);
 export default assignmentRouter;
